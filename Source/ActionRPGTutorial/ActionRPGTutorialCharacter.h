@@ -34,6 +34,14 @@ protected:
 
 	void StopSprinting();
 
+	void Heal(float healAmount);
+
+	void StartHealing();
+
+	void TakeDamage(float damageAmount);
+
+	void StartDamage();
+
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
@@ -54,6 +62,10 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	//Amount of Health player currently has
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float playerHealth;
 
 protected:
 	// APawn interface
