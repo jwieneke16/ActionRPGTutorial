@@ -30,6 +30,10 @@ protected:
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
+	void Sprint();
+
+	void StopSprinting();
+
 	/** Called for side to side input */
 	void MoveRight(float Value);
 

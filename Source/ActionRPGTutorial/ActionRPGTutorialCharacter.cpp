@@ -64,6 +64,9 @@ void AActionRPGTutorialCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &AActionRPGTutorialCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("Move Right / Left", this, &AActionRPGTutorialCharacter::MoveRight);
 
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AActionRPGTutorialCharacter::Sprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AActionRPGTutorialCharacter::StopSprinting);
+
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
@@ -111,6 +114,18 @@ void AActionRPGTutorialCharacter::MoveForward(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AActionRPGTutorialCharacter::Sprint()
+{
+	//isSprinting = true;
+	GetCharacterMovement()->MaxWalkSpeed = 1500.0f;
+}
+
+void AActionRPGTutorialCharacter::StopSprinting()
+{
+	//isSprinting = false;
+	GetCharacterMovement()->MaxWalkSpeed = 500.0f;
 }
 
 void AActionRPGTutorialCharacter::MoveRight(float Value)
