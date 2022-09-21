@@ -47,6 +47,8 @@ AActionRPGTutorialCharacter::AActionRPGTutorialCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	playerHealth = 1.00f;
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -66,6 +68,9 @@ void AActionRPGTutorialCharacter::SetupPlayerInputComponent(class UInputComponen
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AActionRPGTutorialCharacter::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AActionRPGTutorialCharacter::StopSprinting);
+
+	PlayerInputComponent->BindAction("Heal", IE_Pressed, this, &AActionRPGTutorialCharacter::StartHealing);
+	PlayerInputComponent->BindAction("Damage", IE_Pressed, this, &AActionRPGTutorialCharacter::StartDamage);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -130,15 +135,48 @@ void AActionRPGTutorialCharacter::StopSprinting()
 
 void AActionRPGTutorialCharacter::MoveRight(float Value)
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
+	if ((Controller != nullptr) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
+
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
 }
+
+void AActionRPGTutorialCharacter::StartHealing()
+{
+	Heal(0.02f);
+}
+
+void AActionRPGTutorialCharacter::Heal(float healAmount)
+{
+
+	if (playerHealth < 1.00f) {
+		playerHealth += healAmount;
+		UE_LOG(LogTemp, Warning, TEXT("We are healing for %f points."), healAmount);
+	}
+	else {
+		playerHealth = 1.00f;
+	}
+}
+
+void AActionRPGTutorialCharacter::StartDamage()
+{
+	TakeDamage(0.02f);
+}
+
+void AActionRPGTutorialCharacter::TakeDamage(float damageAmount)
+{
+	if (playerHealth > 0.00f) {
+		playerHealth -= damageAmount;
+	}
+	else {
+		playerHealth = 0.00f;
+	}
+}
+
