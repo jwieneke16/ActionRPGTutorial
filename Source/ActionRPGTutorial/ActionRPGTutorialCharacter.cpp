@@ -158,7 +158,6 @@ void AActionRPGTutorialCharacter::Heal(float healAmount)
 
 	if (playerHealth < 1.00f) {
 		playerHealth += healAmount;
-		UE_LOG(LogTemp, Warning, TEXT("We are healing for %f points."), healAmount);
 	}
 	else {
 		playerHealth = 1.00f;

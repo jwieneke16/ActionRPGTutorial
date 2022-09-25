@@ -34,12 +34,12 @@ protected:
 
 	void StopSprinting();
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	void Heal(float healAmount);
-
 	void StartHealing();
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	void TakeDamage(float damageAmount);
-
 	void StartDamage();
 
 	/** Called for side to side input */
