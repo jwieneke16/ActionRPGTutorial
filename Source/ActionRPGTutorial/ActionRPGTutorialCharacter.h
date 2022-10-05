@@ -42,6 +42,8 @@ protected:
 	void TakeDamage(float damageAmount);
 	void StartDamage();
 
+	void EquipItem();
+
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
@@ -66,6 +68,11 @@ protected:
 	//Amount of Health player currently has
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 		float playerHealth;
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+		bool isOverlappingItem;
+
+	
 
 protected:
 	// APawn interface

@@ -48,6 +48,7 @@ AActionRPGTutorialCharacter::AActionRPGTutorialCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	playerHealth = 1.00f;
+	isOverlappingItem = false;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -71,6 +72,8 @@ void AActionRPGTutorialCharacter::SetupPlayerInputComponent(class UInputComponen
 
 	PlayerInputComponent->BindAction("Heal", IE_Pressed, this, &AActionRPGTutorialCharacter::StartHealing);
 	PlayerInputComponent->BindAction("Damage", IE_Pressed, this, &AActionRPGTutorialCharacter::StartDamage);
+
+	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AActionRPGTutorialCharacter::EquipItem);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -179,3 +182,9 @@ void AActionRPGTutorialCharacter::TakeDamage(float damageAmount)
 	}
 }
 
+void AActionRPGTutorialCharacter::EquipItem()
+{
+	if (isOverlappingItem) {
+		UE_LOG(LogTemp, Warning, TEXT("We picked up an item"));
+	}
+}
