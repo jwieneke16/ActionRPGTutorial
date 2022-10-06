@@ -34,13 +34,15 @@ protected:
 
 	void StopSprinting();
 
+	void StartHealing();
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void Heal(float healAmount);
-	void StartHealing();
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void HealArmor(float healAmount);
 
+	void StartDamage();
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void TakeDamage(float damageAmount);
-	void StartDamage();
 
 	void EquipItem();
 
@@ -65,14 +67,19 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+
+	// CHARACTER VARIABLES
+	bool hasArmor; 
+ 
 	//Amount of Health player currently has
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-		float playerHealth;
+		float playerHealth;	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float playerArmor;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
 		bool isOverlappingItem;
 
-	
 
 protected:
 	// APawn interface
