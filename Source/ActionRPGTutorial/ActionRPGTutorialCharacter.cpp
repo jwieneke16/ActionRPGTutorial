@@ -48,7 +48,9 @@ AActionRPGTutorialCharacter::AActionRPGTutorialCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	playerHealth = 1.00f;
+	playerArmor = 1.00f;
 	isOverlappingItem = false;
+	hasArmor = true;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -158,12 +160,20 @@ void AActionRPGTutorialCharacter::StartHealing()
 
 void AActionRPGTutorialCharacter::Heal(float healAmount)
 {
+	playerHealth += healAmount;
 
-	if (playerHealth < 1.00f) {
-		playerHealth += healAmount;
-	}
-	else {
+	if (playerHealth > 1.00f) {
 		playerHealth = 1.00f;
+	}
+}
+
+void AActionRPGTutorialCharacter::HealArmor(float healAmount)
+{
+	playerArmor += healAmount;
+	hasArmor = true;
+
+	if (playerArmor > 1.00f) {
+		playerArmor = 1.00f;
 	}
 }
 
@@ -174,11 +184,22 @@ void AActionRPGTutorialCharacter::StartDamage()
 
 void AActionRPGTutorialCharacter::TakeDamage(float damageAmount)
 {
-	if (playerHealth > 0.00f) {
-		playerHealth -= damageAmount;
+	if (hasArmor) {
+		playerArmor -= damageAmount;
+
+		if (playerArmor < 0.00f) {
+			hasArmor = false;
+			playerHealth += playerArmor;
+			playerArmor = 0.00f;
+		}
 	}
 	else {
-		playerHealth = 0.00f;
+		if (playerHealth > 0.00f) {
+			playerHealth -= damageAmount;
+		}
+		else {
+			playerHealth = 0.00f;
+		}
 	}
 }
 
