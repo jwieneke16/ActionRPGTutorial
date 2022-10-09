@@ -51,6 +51,7 @@ AActionRPGTutorialCharacter::AActionRPGTutorialCharacter()
 	playerArmor = 1.00f;
 	isOverlappingItem = false;
 	hasArmor = true;
+	isZoomedIn = false;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -76,6 +77,9 @@ void AActionRPGTutorialCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("Damage", IE_Pressed, this, &AActionRPGTutorialCharacter::StartDamage);
 
 	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AActionRPGTutorialCharacter::EquipItem);
+
+	PlayerInputComponent->BindAction("Zoom", IE_Pressed, this, &AActionRPGTutorialCharacter::ZoomIn);
+	PlayerInputComponent->BindAction("Zoom", IE_Released, this, &AActionRPGTutorialCharacter::StopZoom);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -207,5 +211,37 @@ void AActionRPGTutorialCharacter::EquipItem()
 {
 	if (isOverlappingItem) {
 		UE_LOG(LogTemp, Warning, TEXT("We picked up an item"));
+	}
+}
+
+void AActionRPGTutorialCharacter::ZoomIn()
+{
+	if (auto thirdPersonCamera = GetCameraBoom())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We are now zooming in"));
+		thirdPersonCamera->TargetArmLength = 150.0f;
+		thirdPersonCamera->TargetOffset = FVector(0.0f, 20.0f, 50.0f);
+
+		if (auto characterMovement = GetCharacterMovement()) {
+			characterMovement->MaxWalkSpeed = 300.0f;
+		}
+
+		isZoomedIn = true;
+	}
+}
+
+void AActionRPGTutorialCharacter::StopZoom()
+{
+	if (auto thirdPersonCamera = GetCameraBoom())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("We have stopped zooming in"));
+		thirdPersonCamera->TargetArmLength = 300.0f;
+		thirdPersonCamera->TargetOffset = FVector(0.0f, 0.0f, 0.0f);
+
+		if (auto characterMovement = GetCharacterMovement()) {
+			characterMovement->MaxWalkSpeed = 600.0f;
+		}
+
+		isZoomedIn = false;
 	}
 }

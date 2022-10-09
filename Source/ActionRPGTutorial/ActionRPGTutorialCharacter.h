@@ -46,6 +46,9 @@ protected:
 
 	void EquipItem();
 
+	void ZoomIn();
+	void StopZoom();
+
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
@@ -78,7 +81,10 @@ protected:
 		float playerArmor;
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
-		bool isOverlappingItem;
+		bool isOverlappingItem;	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+		bool isZoomedIn;
 
 
 protected:
