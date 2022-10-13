@@ -86,6 +86,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 		bool isZoomedIn;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int currentLevel;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int upgradePoints;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int strengthValue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int dexterityValue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		int intellectValue;
 
 protected:
 	// APawn interface

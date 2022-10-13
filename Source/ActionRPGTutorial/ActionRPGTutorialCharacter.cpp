@@ -49,10 +49,19 @@ AActionRPGTutorialCharacter::AActionRPGTutorialCharacter()
 
 	playerHealth = 1.00f;
 	playerArmor = 1.00f;
+
 	isOverlappingItem = false;
 	hasArmor = true;
 	isZoomedIn = false;
 
+	currentLevel = 1;
+	upgradePoints = 5;
+
+	strengthValue = 1;
+	dexterityValue = 2;
+	intellectValue = 3;
+
+	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
